@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Stack | Jackie's Team</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f1117;
+            --card-dark: #1a1d28;
+            --gold: #b8956a;
+            --gold-light: #d4b48c;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #2d2d3a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --gradient-start: rgba(184, 149, 106, 0.1);
+            --gradient-end: rgba(184, 149, 106, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-top: 2rem;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* CEO Card */
+        .ceo-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .ceo-card {
+            background: linear-gradient(145deg, var(--card-dark), #151722);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .ceo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .ceo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+        }
+
+        .ceo-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--gradient-start) 0%, transparent 70%);
+            opacity: 0;
+            animation: pulse 4s infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .ceo-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .ceo-emoji {
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            flex-shrink: 0;
+        }
+
+        .ceo-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .ceo-info .role {
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .ceo-info .model {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .ceo-info .description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Departments Grid */
+        .departments-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Department Card */
+        .department-card {
+            background: var(--card-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .department-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--gold);
+        }
+
+        .department-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .department-emoji {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .department-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .department-info .dept-head {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .department-info .model-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+
+        .department-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Skills */
+        .skills {
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(184, 149, 106, 0.1);
+            color: var(--gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(184, 149, 106, 0.3);
+        }
+
+        /* Team Members */
+        .team-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .team-members {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .team-member:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .member-emoji {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .member-role {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.1rem;
+        }
+
+        .member-model {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        .model-api {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        .model-free {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .model-cheap {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        /* Connected Services */
+        .services-section {
+            margin-bottom: 4rem;
+        }
+
+        .services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .service-badge {
+            background: var(--card-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: all 0.2s ease;
+        }
+
+        .service-badge:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-icon {
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        .service-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .service-count {
+            background: rgba(184, 149, 106, 0.1);
+            color: var(--gold);
+            padding: 0.1rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 0.3rem;
+        }
+
+        /* Businesses */
+        .businesses-section {
+            margin-bottom: 4rem;
+        }
+
+        .businesses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .business-card {
+            background: var(--card-dark);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .business-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .business-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .business-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .business-type {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--gold-light);
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .ceo-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .ceo-emoji {
+                font-size: 3rem;
+            }
+            
+            .departments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                justify-content: flex-start;
+            }
+            
+            .businesses-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .ceo-card {
+                padding: 1.5rem;
+            }
+            
+            .department-card {
+                padding: 1.5rem;
+            }
+            
+            .service-badge {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>AI Agent Stack</h1>
+            <p>Our intelligent team powering businesses with specialized AI agents</p>
+        </header>
+
+        <!-- CEO Section -->
+        <section class="ceo-section">
+            <div class="ceo-card">
+                <div class="ceo-content">
+                    <div class="ceo-emoji">⚡</div>
+                    <div class="ceo-info">
+                        <h2>Jackie</h2>
+                        <div class="role">Orchestrator & CEO</div>
+                        <span class="model">Opus 4.6 API</span>
+                        <p class="description">Coordinates all departments, delegates to department heads, and reports to Lex. The strategic leader of our AI organization.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Departments Section -->
+        <section class="departments-section">
+            <h2 class="section-title">Department Heads</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">All department heads run on <strong>qwen3.5:35b local — FREE</strong>, managing specialized teams of AI agents</p>
+            
+            <div class="departments-grid">
+                <!-- Marketing Department -->
+                <div class="department-card">
+                    <div class="department-header">
+                        <div class="department-emoji">🎯</div>
+                        <div class="department-info">
+                            <h3>Tanya</h3>
+                            <div class="dept-head">Marketing Department</div>
+                            <span class="model-badge">FREE</span>
+                        </div>
+                    </div>
+                    <p class="department-description">Strategy, campaigns, brand, audience targeting, content coordination</p>
+                    
+                    <div class="skills">
+                        <div class="skills-title">Skills</div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">GA4</span>
+                            <span class="skill-tag">AdRoll</span>
+                            <span class="skill-tag">Brevo</span>
+                            <span class="skill-tag">Klaviyo</span>
+                            <span class="skill-tag">Semrush</span>
+                        </div>
+                    </div>
+
+                    <div class="team-title">Team</div>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="member-emoji">📝</div>
+                            <div class="member-info">
+                                <div class="member-name">Copywriter</div>
+                                <div class="member-role">Blog posts, ad copy, emails</div>
+                            </div>
+                            <div class="member-model model-api">GPT-5 mini (API)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">📊</div>
+                            <div class="member-info">
+                                <div class="member-name">Analytics Reporter</div>
+                                <div class="member-role">GA4 reports</div>
+                            </div>
+                            <div class="member-model model-free">qwen3:8b (FREE)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">📧</div>
+                            <div class="member-info">
+                                <div class="member-name">Email Assembler</div>
+                                <div class="member-role">Klaviyo/Brevo</div>
+                            </div>
+                            <div class="member-model model-free">qwen3:8b (FREE)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">🔍</div>
+                            <div class="member-info">
+                                <div class="member-name">SEO Analyst</div>
+                                <div class="member-role">Keyword research, audits</div>
+                            </div>
+                            <div class="member-model model-free">qwen3-coder:30b (FREE)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">📡</div>
+                            <div class="member-info">
+                                <div class="member-name">API Caller</div>
+                                <div class="member-role">AdRoll campaigns</div>
+                            </div>
+                            <div class="member-model model-free">qwen3:8b (FREE)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technology Department -->
+                <div class="department-card">
+                    <div class="department-header">
+                        <div class="department-emoji">🔧</div>
+                        <div class="department-info">
+                            <h3>Vanessa</h3>
+                            <div class="dept-head">Technology Department</div>
+                            <span class="model-badge">FREE</span>
+                        </div>
+                    </div>
+                    <p class="department-description">Architecture, debugging, API integrations, automation, infrastructure</p>
+                    
+                    <div class="skills">
+                        <div class="skills-title">Skills</div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">Shopify</span>
+                            <span class="skill-tag">WordPress/WooCommerce</span>
+                            <span class="skill-tag">Meta Ads</span>
+                            <span class="skill-tag">Cloudflare</span>
+                        </div>
+                    </div>
+
+                    <div class="team-title">Team</div>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="member-emoji">💻</div>
+                            <div class="member-info">
+                                <div class="member-name">Coder</div>
+                                <div class="member-role">Scripts, integrations, full builds</div>
+                            </div>
+                            <div class="member-model model-api">DeepSeek V3.2 (API)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">🐛</div>
+                            <div class="member-info">
+                                <div class="member-name">Debugger</div>
+                                <div class="member-role">Complex bugs</div>
+                            </div>
+                            <div class="member-model model-api">DeepSeek R1 (API, reasoning)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">🔧</div>
+                            <div class="member-info">
+                                <div class="member-name">Script Runner</div>
+                                <div class="member-role">Simple scripts</div>
+                            </div>
+                            <div class="member-model model-cheap">GPT-4.1 nano (cheap)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales & Client Experience -->
+                <div class="department-card">
+                    <div class="department-header">
+                        <div class="department-emoji">💎</div>
+                        <div class="department-info">
+                            <h3>Jessica</h3>
+                            <div class="dept-head">Sales & Client Experience</div>
+                            <span class="model-badge">API</span>
+                        </div>
+                    </div>
+                    <p class="department-description">Lead qualification, sales strategy, customer communication, retention</p>
+                    
+                    <div class="team-title">Team</div>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="member-emoji">💬</div>
+                            <div class="member-info">
+                                <div class="member-name">Customer Responder</div>
+                                <div class="member-role">Inquiry/support</div>
+                            </div>
+                            <div class="member-model model-api">GPT-5 mini (API)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">⭐</div>
+                            <div class="member-info">
+                                <div class="member-name">Review Drafter</div>
+                                <div class="member-role">Google/Yelp reviews</div>
+                            </div>
+                            <div class="member-model model-api">GPT-5 mini (API)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operations -->
+                <div class="department-card">
+                    <div class="department-header">
+                        <div class="department-emoji">📋</div>
+                        <div class="department-info">
+                            <h3>Amanda</h3>
+                            <div class="dept-head">Operations</div>
+                            <span class="model-badge">cheap</span>
+                        </div>
+                    </div>
+                    <p class="department-description">Task tracking, workflow, scheduling, reporting, coordination</p>
+                    
+                    <div class="team-title">Team</div>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="member-emoji">📋</div>
+                            <div class="member-info">
+                                <div class="member-name">Task Formatter</div>
+                                <div class="member-role">Task lists</div>
+                            </div>
+                            <div class="member-model model-cheap">GPT-4.1 nano (cheap)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">📊</div>
+                            <div class="member-info">
+                                <div class="member-name">Report Generator</div>
+                                <div class="member-role">Weekly summaries</div>
+                            </div>
+                            <div class="member-model model-free">qwen3:8b (FREE)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connected Services -->
+        <section class="services-section">
+            <h2 class="section-title">Connected Services</h2>
+            <div class="services-grid">
+                <div class="service-badge">
+                    <i class="fas fa-chart-line service-icon"></i>
+                    <div>
+                        <div class="service-name">GA4</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-bullhorn service-icon"></i>
+                    <div>
+                        <div class="service-name">AdRoll</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-envelope service-icon"></i>
+                    <div>
+                        <div class="service-name">Brevo</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-envelope-open-text service-icon"></i>
+                    <div>
+                        <div class="service-name">Klaviyo</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-shopping-bag service-icon"></i>
+                    <div>
+                        <div class="service-name">Shopify</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fab fa-wordpress service-icon"></i>
+                    <div>
+                        <div class="service-name">WordPress</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-shopping-cart service-icon"></i>
+                    <div>
+                        <div class="service-name">WooCommerce</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-bullseye service-icon"></i>
+                    <div>
+                        <div class="service-name">Meta Ads</div>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-cloud service-icon"></i>
+                    <div>
+                        <div class="service-name">Cloudflare</div>
+                        <span class="service-count">6 zones</span>
+                    </div>
+                </div>
+                <div class="service-badge">
+                    <i class="fas fa-search service-icon"></i>
+                    <div>
+                        <div class="service-name">Semrush</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Businesses -->
+        <section class="businesses-section">
+            <h2 class="section-title">Businesses Managed</h2>
+            <div class="businesses-grid">
+                <div class="business-card">
+                    <div class="business-icon">💎</div>
+                    <div class="business-name">Lux Neon Art Gallery</div>
+                    <div class="business-type">Art & Decor</div>
+                </div>
+                <div class="business-card">
+                    <div class="business-icon">📎</div>
+                    <div class="business-name">Crown Office Supplies</div>
+                    <div class="business-type">Office Products</div>
+                </div>
+                <div class="business-card">
+                    <div class="business-icon">👕</div>
+                    <div class="business-name">Shirtsy</div>
+                    <div class="business-type">Apparel</div>
+                </div>
+                <div class="business-card">
+                    <div class="business-icon">✨</div>
+                    <div class="business-name">GoodNeon</div>
+                    <div class="business-type">Neon Signs</div>
+                </div>
+                <div class="business-card">
+                    <div class="business-icon">🏠</div>
+                    <div class="business-name">Virtus Realty Group</div>
+                    <div class="business-type">Real Estate</div>
+                </div>
+                <div class="business-card">
+                    <div class="business-icon">🥥</div>
+                    <div class="business-name">Coconut Bikini</div>
+                    <div class="business-type">Swimwear</div>
+                </div>
+                <div class="business-card">
+                    <div class="business-icon">👗</div>
+                    <div class="business-name">Reclaimed Closet</div>
+                    <div class="business-type">Fashion</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with precision by the <strong style="color: var(--gold);">Vanessa Technology Department</strong></p>
+        </footer>
+    </div>
+</body>
+</html>
