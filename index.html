@@ -556,7 +556,7 @@
                         <h2>Jackie</h2>
                         <div class="role">Orchestrator & CEO</div>
                         <span class="model">Opus 4.6 API</span>
-                        <p class="description">Coordinates all departments, delegates to department heads, and reports to Lex. The strategic leader of our AI organization.</p>
+                        <p class="description">Orchestrates all work: delegates to department heads (27b, run mode), then to agent-coding (Sonnet 4.6). Performs ALL QC verification — department heads relay results. The strategic leader of our AI organization.</p>
                     </div>
                 </div>
             </div>
@@ -565,7 +565,7 @@
         <!-- Departments Section -->
         <section class="departments-section">
             <h2 class="section-title">Department Heads</h2>
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">All department heads run on <strong>qwen3.5:35b local — FREE</strong>, managing specialized teams of AI agents</p>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">All department heads run on <strong>qwen3.5:27b local — FREE</strong> (Dense architecture — all 27B parameters active per token). Spawned per-task in "run" mode — fresh context each time. Model alias: <code>dept-head</code> → <code>ollama/qwen3.5:27b</code></p>
             
             <div class="departments-grid">
                 <!-- Marketing Department -->
@@ -652,9 +652,9 @@
                         <div class="skills-title">Skills</div>
                         <div class="skills-tags">
                             <span class="skill-tag">Shopify</span>
-                            <span class="skill-tag">WordPress/WooCommerce</span>
-                            <span class="skill-tag">Meta Ads</span>
+                            <span class="skill-tag">WordPress</span>
                             <span class="skill-tag">Cloudflare</span>
+                            <span class="skill-tag">Meta Ads</span>
                         </div>
                     </div>
 
@@ -699,6 +699,15 @@
                     </div>
                     <p class="department-description">Lead qualification, sales strategy, customer communication, retention</p>
                     
+                    <div class="skills">
+                        <div class="skills-title">Skills</div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">Aircall</span>
+                            <span class="skill-tag">Freshdesk</span>
+                            <span class="skill-tag">Intercom</span>
+                        </div>
+                    </div>
+
                     <div class="team-title">Team</div>
                     <div class="team-members">
                         <div class="team-member">
@@ -720,6 +729,49 @@
                     </div>
                 </div>
 
+                <!-- Creative & Design -->
+                <div class="department-card">
+                    <div class="department-header">
+                        <div class="department-emoji">🎨</div>
+                        <div class="department-info">
+                            <h3>Sandra</h3>
+                            <div class="dept-head">Creative & Design</div>
+                            <span class="model-badge">FREE</span>
+                        </div>
+                    </div>
+                    <p class="department-description">Visual design, branding, image generation, creative assets</p>
+                    
+                    <div class="skills">
+                        <div class="skills-title">Skills</div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">OpenAI Image</span>
+                            <span class="skill-tag">Gemini Image</span>
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Canva</span>
+                        </div>
+                    </div>
+
+                    <div class="team-title">Team</div>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="member-emoji">🖼️</div>
+                            <div class="member-info">
+                                <div class="member-name">Image Generator</div>
+                                <div class="member-role">AI image creation</div>
+                            </div>
+                            <div class="member-model model-api">DALL-E 3 (API)</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-emoji">🎨</div>
+                            <div class="member-info">
+                                <div class="member-name">Design Assistant</div>
+                                <div class="member-role">Layouts, mockups</div>
+                            </div>
+                            <div class="member-model model-free">qwen3:8b (FREE)</div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Operations -->
                 <div class="department-card">
                     <div class="department-header">
@@ -732,6 +784,14 @@
                     </div>
                     <p class="department-description">Task tracking, workflow, scheduling, reporting, coordination</p>
                     
+                    <div class="skills">
+                        <div class="skills-title">Skills</div>
+                        <div class="skills-tags">
+                            <span class="skill-tag">Operations Dashboards</span>
+                            <span class="skill-tag">Memory System</span>
+                        </div>
+                    </div>
+
                     <div class="team-title">Team</div>
                     <div class="team-members">
                         <div class="team-member">
@@ -820,6 +880,13 @@
                         <div class="service-name">Semrush</div>
                     </div>
                 </div>
+                <div class="service-badge">
+                    <i class="fas fa-calculator service-icon"></i>
+                    <div>
+                        <div class="service-name">QuickBooks Online</div>
+                        <span class="service-count">API</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -867,7 +934,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Built with precision by the <strong style="color: var(--gold);">Vanessa Technology Department</strong></p>
+            <p>Built with precision by the <strong style="color: var(--gold);">Vanessa Technology Department</strong> | OpenClaw 2026.3.24</p>
         </footer>
     </div>
 </body>
